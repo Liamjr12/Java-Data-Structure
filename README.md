@@ -1,0 +1,1 @@
+This repo contains my projects about Data Structure. I will use Java collection framework to further study the subject. I hope you like my various kind of ideas that I found on internet, although it's not perfect but I hope I get your hopes on my development progress. Thank you for reading this!
