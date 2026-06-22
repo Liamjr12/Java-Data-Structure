@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         Scanner scanner = new Scanner(System.in);
-        MovieManager movies = new MovieManager();
+        MovieManager movies = new MovieManager(null);
 
         while (true) {
             try  {
@@ -43,12 +43,12 @@ public class Main {
                         scanner.close();
                         return;
                     default:
-                        movies.printError();
+                        movies.validator.printError();
                         break;
                 }
 
             } catch (InputMismatchException e) {
-                e.printStackTrace();
+                System.out.println("Please enter a valid number");
                 scanner.nextLine();
             }
 

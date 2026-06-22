@@ -2,34 +2,24 @@ package MovieManagementSystem;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 public class MovieManager {
 
-    List<String> watchList = new ArrayList<>();
-    List<String> history = new LinkedList<>();
+    protected List<String> watchList = new ArrayList<>();
+    protected List<String> history = new ArrayList<>();
+    protected Validation validator;
+
+    public MovieManager(Validation validator) {
+        this.validator = new Validation(this);
+    }
 
     public void addMovie(Scanner scanner) {
+
         System.out.print("\nAdd movie >> ");
-        String line = scanner.nextLine().trim().toLowerCase();
-        
-        if (line.isBlank()) {
-            printError();
-            return;
-        } 
+        String line = getInput(scanner);
 
-        if (watchList.contains(line)) {
-            System.out.println("Movie already in queue");
-            return;
-        }
-
-        if (history.contains(line)) {
-            System.out.println("The movie is already watched");
-            return;
-        } 
-
-        if (line.equalsIgnoreCase("return")) {
+        if (!validator.addMovieValidation(line)) {
             return;
         }
 
@@ -39,6 +29,7 @@ public class MovieManager {
     }
 
     public void displayMovieWatchlist() {
+
         Iterator<String> it = watchList.iterator();
         int i = 1;
 
@@ -55,33 +46,23 @@ public class MovieManager {
     }
 
     public void markAsWatched(Scanner scanner) {
+
         System.out.print("\nWatch >> ");
-        String line = scanner.nextLine().trim().toLowerCase();
+        String line = getInput(scanner);
+        String movie = getMovie(line);
 
-        if (history.contains(line)) {
-            System.out.println("The movie \'" + line + "\' is already watched");
+        if (!validator.markMovieValidation(line, movie)) {
             return;
         }
 
-        if (!watchList.contains(line)) {
-            System.out.println("This movie is not on the list");
-            return;
-        }
-
-        if (line.equalsIgnoreCase("return")) {
-            return;
-        }
-
-        if (watchList.contains(line)) {
-            watchList.remove(line);
-            history.add(line);
-            System.out.println("The movie \"" + line + "\" has been marked as watched");
-            return;
-        } 
+        watchList.remove(movie);
+        history.add(movie);
+        System.out.println("The movie \'" + line + "\' has been marked as watched");
 
     }
 
     public void displayHistory() {
+
         Iterator<String> it = history.iterator();
 
         if(history.isEmpty()){
@@ -98,28 +79,28 @@ public class MovieManager {
     }
 
     public void findMovie(Scanner scanner) {
+
         System.out.print("\nSearch >> ");
-        String line = scanner.nextLine().trim().toLowerCase();
+        String line = getInput(scanner);
 
-        if (line.equalsIgnoreCase("return")) {
-            return;
-        }
-
-        if (watchList.contains(line)) {
-            System.out.println("The movie " + line + " is currently available");
-        } else if (history.contains(line)) {
-            System.out.println("The movie " + line + " has been marked as watched");
-        }else {
-            System.out.println("This movie is not on the list");
-        }
+        validator.findMovieValidation(line);
         
     }
 
-    public void printError() {
-        System.out.println("""
-        Invalid input: Please use a valid command
-        Make sure you've type the correct to command to proceed
-        """);
+    private String getInput(Scanner scanner) {
+        return scanner.nextLine().trim();
+    }
+
+    private String getMovie(String title) {
+
+        for (String list : watchList) {
+            if (list.equalsIgnoreCase(title)) {
+                return list;
+            }
+        }
+
+        return null;
+
     }
 
 }
