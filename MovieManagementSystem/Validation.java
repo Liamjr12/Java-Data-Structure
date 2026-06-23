@@ -11,12 +11,10 @@ public class Validation {
     
     public boolean addMovieValidation(String line) {
 
-        if (line.equalsIgnoreCase(BACK_COMMAND)) {
-            return false;
-        }
+        isBack(line);
         
         if (line.isBlank()) {
-            printError();
+            movieManager.printError();
             return false;
         } 
 
@@ -36,9 +34,7 @@ public class Validation {
 
     public boolean markMovieValidation (String line, String movie) {
 
-        if (line.equalsIgnoreCase(BACK_COMMAND)) {
-            return false;
-        }
+        isBack(line);
 
         if (isWatched(line)) {
             System.out.println("The movie \'" + line + "\' is already watched");
@@ -56,9 +52,7 @@ public class Validation {
 
     public boolean findMovieValidation(String line) {
 
-        if (line.equalsIgnoreCase(BACK_COMMAND)) {
-            return false;
-        }
+        isBack(line);
 
         if (movieExists(line)) {
             System.out.println("The movie has been found");
@@ -99,13 +93,11 @@ public class Validation {
 
     }
 
-    public void printError() {
-
-        System.out.println("""
-        Invalid input: Please use a valid command
-        Make sure you've typed the correct command to proceed
-        """);
-
+    private boolean isBack(String line) {
+        if (line.equalsIgnoreCase(BACK_COMMAND)) {
+            return false;
+        }
+        return true;
     }
 
 }
