@@ -10,7 +10,7 @@ public class MovieManager {
     protected List<String> history = new ArrayList<>();
     protected Validation validator;
 
-    public MovieManager(Validation validator) {
+    public MovieManager() {
         this.validator = new Validation(this);
     }
 

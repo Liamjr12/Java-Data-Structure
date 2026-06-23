@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         Scanner scanner = new Scanner(System.in);
-        MovieManager movies = new MovieManager(null);
+        MovieManager movies = new MovieManager();
 
         while (true) {
             try  {
@@ -24,27 +24,16 @@ public class Main {
                 scanner.nextLine();
                 
                 switch(choice) {
-                    case 1:
-                        movies.addMovie(scanner);
-                        break;
-                    case 2:
-                        movies.displayMovieWatchlist();
-                        break;
-                    case 3:
-                        movies.markAsWatched(scanner);
-                        break;
-                    case 4:
-                        movies.displayHistory();
-                        break;
-                    case 5:
-                        movies.findMovie(scanner);
-                        break;
-                    case 6:
-                        scanner.close();
+                    case 1 -> movies.addMovie(scanner);
+                    case 2 -> movies.displayMovieWatchlist();
+                    case 3 -> movies.markAsWatched(scanner);
+                    case 4 -> movies.displayHistory();
+                    case 5 -> movies.findMovie(scanner);
+                    case 6 -> {
+                        scanner.close(); 
                         return;
-                    default:
-                        movies.validator.printError();
-                        break;
+                    }
+                    default -> movies.validator.printError();
                 }
 
             } catch (InputMismatchException e) {
